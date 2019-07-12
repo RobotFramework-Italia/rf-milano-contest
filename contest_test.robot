@@ -24,6 +24,7 @@ Test Contest
 
     [Teardown]  Close Browser
 
+
 *** Keywords ***
 
 Setup Test
@@ -33,29 +34,32 @@ Setup Test
 Register User
     go to       ${JOOMLA_REG}
     input text  jform_name  nome
-    input text  jform_username  ${USERNAME}
+    input text  jform_username      ${USERNAME}
     input text  jform_password1     ${PASSWORD}
     input text  jform_password2     ${PASSWORD}
-    input text  jform_email1    ${USERNAME}@yopmail.com
-    input text  jform_email2    ${USERNAME}@yopmail.com
+    input text  jform_email1        ${USERNAME}@yopmail.com
+    input text  jform_email2        ${USERNAME}@yopmail.com
     click button    Registrati
 
 Login User
-    input text  username    ${USERNAME}
-    input text  password    ${PASSWORD}
+    input text      username    ${USERNAME}
+    input text      password    ${PASSWORD}
     click button    Accedi
 
 Submit An Article
     [Arguments]     ${title}=default title    ${article}=default text
     go to  ${JOOMLA_SUB_ARTICLE}
     input text      jform_title    Luca Emanuele Daniele - ${title}
-    # Click Editor sì/No button
+    # Click Editor sì/No button to disable wyswyg html editor
     click element   //*[@id="editor"]/div[3]/div[2]/div/a
-    input text  jform_articletext   ${article}
-    click link  \#publishing
+    input text      jform_articletext   ${article}
+    # Change tab to change category
+    click link      \#publishing
+    # Click the select for changing category
     click element   jform_catid_chzn
+    # Click the option blog post
     click element   //*[@data-option-array-index="1"]
-    # Click Salva button
+    # Click Salva save button
     click button    //*[@id="adminForm"]/div/div[1]/button
 
 Generate User
@@ -65,13 +69,13 @@ Generate User
 
 Get First Article From Yahoo
     go to   ${YAHOO_SITE}
+    # Close cookie policy disclaimer
     click button   agree
-
+    # Click the link to read the first article
     click element   //*/span[contains(text(), 'Leggi l')]
     ${title}=       get text        modal-header
     ${article}=     get text        //*[@class='body-wrapper']
-
+    # Debug information to see whether contet has been read
     log to console  ${title}
     log to console  ${article}
-
     [Return]  ${title}    ${article}
