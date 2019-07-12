@@ -63,14 +63,14 @@ Submit An Article
     click button    //*[@id="adminForm"]/div/div[1]/button
 
 Generate User
-    ${random}=    generate random string  8
-    log to console  ${random}
-    set test variable  ${USERNAME}  ${random}
+    ${random}=          generate random string  8
+    log to console      ${random}
+    set test variable   ${USERNAME}  ${random}
 
 Get First Article From Yahoo
     go to   ${YAHOO_SITE}
     # Close cookie policy disclaimer
-    click button   agree
+    click button    agree
     # Click the link to read the first article
     click element   //*/span[contains(text(), 'Leggi l')]
     ${title}=       get text        modal-header
